@@ -9,8 +9,8 @@
   mktemp,
   diffutils,
   ageBin ? "${
-    # we need at least rage 0.5.0 to support ssh keys
-    if rage.version < "0.5.0"
+    # we need at least rage 0.6.0 to support yubikey
+    if rage.version < "0.6.0"
     then callPackage ./rage.nix {}
     else rage
   }/bin/rage"
@@ -20,11 +20,14 @@ let
   nixInstantiate = "${nix}/bin/nix-instantiate";
   mktempBin = "${mktemp}/bin/mktemp";
   diffBin = "${diffutils}/bin/diff";
+  ykDir = "${callPackage ./age-plugin-yubikey.nix {}}/bin";
 in
 lib.recursiveUpdate (writeShellScriptBin "agenix" ''
 set -Eeuo pipefail
 
 PACKAGE="agenix"
+
+export PATH="${ykDir}:$PATH"
 
 function show_help () {
   echo "$PACKAGE - edit and rekey age secret files"
