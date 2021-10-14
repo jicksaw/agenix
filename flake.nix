@@ -1,6 +1,8 @@
 {
   description = "Secret management with age";
 
+  inputs.nixpkgs.url = "github:NixOS/nxipkgs/48293bd6b6b791b9af745e9b7b94a6856e279fa0";
+
   outputs = { self, nixpkgs }:
     let
       agenix = system:
