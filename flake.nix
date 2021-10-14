@@ -1,7 +1,7 @@
 {
   description = "Secret management with age";
 
-  inputs.nixpkgs.url = "github:NixOS/nxipkgs/54e1db21522a61ca771aeafbbd77c4a474e82f8e";
+  inputs.nixpkgs.url = "github:NixOS/nxipkgs/7d38eec7c55730af4e74049f2f7e6cb122ddff2c";
 
   outputs = { self, nixpkgs }:
     let
