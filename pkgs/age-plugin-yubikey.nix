@@ -1,4 +1,11 @@
-{ lib, rustPlatform, fetchFromGitHub, pkgconfig, pcsclite }:
+{ lib
+, stdenv
+, rustPlatform
+, fetchFromGitHub
+, pkg-config
+, pcsclite
+, darwin
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "age-plugin-yubikey";
@@ -13,8 +20,13 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "sha256-m/v4E7KHyLIWZHX0TKpqwBVDDwLjhYpOjYMrKEtx6/4=";
 
-  nativeBuildInputs = [ pkgconfig ];
-  buildInputs = [ pcsclite ];
+  nativeBuildInputs = lib.optionals stdenv.isLinux [ pkg-config ];
+
+  buildInputs = lib.optionals stdenv.isDarwin
+    (with darwin.apple_sdk.frameworks; [
+      Foundation
+      PCSC
+    ]) ++ lib.optionals stdenv.isLinux [ pcsclite ];
 
   meta = with lib; {
     description = "YubiKey plugin for age";
